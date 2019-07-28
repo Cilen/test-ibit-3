@@ -2,33 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Calculator;
 use App\Http\Requests\CalculatorRequest;
-use Illuminate\Http\Request;
 
 class CalculatorController extends Controller
 {
-    public function addition(CalculatorRequest $data){
-        $result = $data->firstNumber + $data->lastNumber;
-        return $result;
-    }
+    public function calculate(CalculatorRequest $data, Calculator $calculator){
+        $first_operand = $data->input('first_operand');
+        $second_operand = $data->input('second_operand');
+        $action = $data->input('calc');
 
-    public function subtraction(CalculatorRequest $data){
-        $result = $data->firstNumber - $data->lastNumber;
-        return $result;
-    }
+        $result = $calculator->calculate($first_operand, $second_operand, $action);
 
-    public function multiplication(CalculatorRequest $data){
-        $result = $data->firstNumber * $data->lastNumber;
-        return $result;
+        return response()->json([
+            'result' => $result,
+        ]);
 
-    }
-    public function division(CalculatorRequest $data){
-        if ($data->lastNumber == 0) return $this->unknown();
-        $result = $data->firstNumber / $data->lastNumber;
-        return $result;
-
-    }
-    public function unknown(){
-        return response('The data entered is incorrect', 400);
     }
 }

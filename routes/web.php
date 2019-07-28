@@ -12,13 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('test_form');
 });
 
-Route::prefix('calculate')->group(function () {
-    Route::post('addition', 'CalculatorController@addition');
-    Route::post('subtraction', 'CalculatorController@subtraction');
-    Route::post('multiplication', 'CalculatorController@multiplication');
-    Route::post('division', 'CalculatorController@division');
-    Route::post('{unknownPage}', 'CalculatorController@unknownPage');
-});
+
+Route::post('calc', 'CalculatorController@calculate');
+

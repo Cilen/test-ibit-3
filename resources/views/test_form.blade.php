@@ -21,6 +21,7 @@
         </style>
     </head>
     <body>
+        <h2>Basic calculation</h2>
         <div id="app">
 
             <calculator-form></calculator-form>

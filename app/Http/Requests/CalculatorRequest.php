@@ -24,8 +24,9 @@ class CalculatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstNumber' => 'numeric|required',
-            'lastNumber' => 'numeric|required',
+            'first_operand' => 'numeric|required',
+            'second_operand' => 'numeric|required',
+            'calc' => 'in:/,*,+,-|required'
         ];
     }
 

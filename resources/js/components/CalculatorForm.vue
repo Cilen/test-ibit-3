@@ -22,10 +22,10 @@
                         </div>
                         <div class="form-group col-4">
                             <select id="action" class="form-control form-control-lg" v-model="action" v-on:click="runAction">
-                                <option value="addition" selected>&#128125</option>
-                                <option value="subtraction">&#128128</option>
-                                <option value="multiplication">&#128123</option>
-                                <option value="division">&#128561</option>
+                                <option value="+" selected>&#128125</option>
+                                <option value="-">&#128128</option>
+                                <option value="*">&#128123</option>
+                                <option value="/">&#128561</option>
                             </select>
                         </div>
                         <div class="form-group col-4">
@@ -52,30 +52,29 @@
             return{
                 firstNumber: 0,
                 lastNumber: 0,
-                action: "addition",
-                actionUrl: "calculate",
+                action: "+",
+                actionUrl: "calc",
                 total: 0,
                 error: null,
             }
         },
         methods: {
             sendData: function (firstNumber, lastNumber, action, actionUrl) {
-                const formData = new FormData();
-                formData.append('firstNumber', firstNumber);
-                formData.append('lastNumber', lastNumber);
-
-                // Url для виконання запититу. Він залежиться від вибраної арифметичної дії
-                let url = actionUrl + "/" + action;
-
-                axios.post(url, formData)
+                axios.post(actionUrl,
+                    {
+                        first_operand: firstNumber,
+                        second_operand: lastNumber,
+                        calc: action,
+                    })
                     .then(response => {
                         let data = response.data;
-                        this.updateTotal(data);
+                        this.updateTotal(data['result']);
                         this.updateError(null);
                     })
                     .catch(error => {
                         this.updateTotal(0);
-                        this.updateError(error.response.data);
+                        let errorData = error.response.data;
+                        this.updateError(errorData['message']);
                     });
             },
             updateTotal: function(data){
